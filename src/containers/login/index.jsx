@@ -4,28 +4,28 @@ import * as yup from 'yup';
 
 import Logo from '../../assets/logo.png';
 import { Button } from '../../components/Button';
-import { 
-    Container, 
-    Form, 
-    InputContainer, 
-    LeftContainer, 
-    RightContainer, 
-    Title 
+import {
+    Container,
+    Form,
+    InputContainer,
+    LeftContainer,
+    RightContainer,
+    Title
 } from './styles';
 
 export function Login() {
     const schema = yup
-    .object({
-        email: yup
-        .string()
-        .email('Digite um e-mail válido')
-        .required('O e-mail é obrigatório'),
-        password: yup
-        .string()
-        .min(6, 'A senha deve ter pelo menos 6 caracteres')
-        .required('Digite uma senha'),
-    })
-    .required();
+        .object({
+            email: yup
+                .string()
+                .email('Digite um e-mail válido')
+                .required('O e-mail é obrigatório'),
+            password: yup
+                .string()
+                .min(6, 'A senha deve ter pelo menos 6 caracteres')
+                .required('Digite uma senha'),
+        })
+        .required();
 
     const {
         register,
@@ -47,7 +47,7 @@ export function Login() {
             <RightContainer>
                 <Title>
                     Olá, seja bem vindo a pagina do <span>desenvolvedor Carlos!</span>
-                    <br/>Acesse com seu <span> Login e senha.</span>
+                    <br />Acesse com seu <span> Login e senha.</span>
                 </Title>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <InputContainer>
@@ -63,8 +63,9 @@ export function Login() {
                     </InputContainer>
                     <Button type="submit">Entrar</Button>
                 </Form>
+                
                 <p>
-                    Não possui conta? <a>Clique aqui.</a> 
+                    Não possui conta? <a>Clique aqui.</a>
                 </p>
             </RightContainer>
         </Container>
