@@ -4,6 +4,7 @@ import * as yup from 'yup';
 
 import Logo from '../../assets/logo.png';
 import { Button } from '../../components/Button';
+import { api } from '../../services/api';
 import {
     Container,
     Form,
@@ -37,7 +38,14 @@ export function Login() {
 
     console.log(errors);
 
-    const onSubmit = (data) => console.log(data);
+    const onSubmit = async (data) => {
+        const response = await api.post('/session', {
+            email: data.email,
+            password: data.password,
+        });
+
+        console.log(response);
+    };
 
     return (
         <Container>
@@ -63,7 +71,7 @@ export function Login() {
                     </InputContainer>
                     <Button type="submit">Entrar</Button>
                 </Form>
-                
+
                 <p>
                     Não possui conta? <a>Clique aqui.</a>
                 </p>
