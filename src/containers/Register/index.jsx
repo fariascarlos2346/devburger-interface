@@ -18,6 +18,7 @@ import {
 export function Register() {
     const schema = yup
         .object({
+            name: yup.string().require('O nome é Obrigatório'),
             email: yup
                 .string()
                 .email('Digite um e-mail válido')
@@ -26,6 +27,10 @@ export function Register() {
                 .string()
                 .min(6, 'A senha deve ter pelo menos 6 caracteres')
                 .required('Digite uma senha'),
+            confirmPassword: yup
+                .string()
+                .oneOf([yup.ref('password')], 'As senhas devem ser iguais')
+                .required('Confirma sua senha'),    
         })
         .required();
 
@@ -41,14 +46,15 @@ export function Register() {
 
     const onSubmit = async (data) => {
         const response = await toast.promise(
-            api.post('/sessions', {
+            api.post('/users', {
+                name: data.name,
                 email: data.email,
                 password: data.password,
             }),
             {
                 pending: 'Verificando seus dados',
-                success: 'Seja Bem-vindo(a)',
-                error: 'Email ou Senha Incorretos',
+                success: 'Cadastro efetuado com Sucesso',
+                error: 'Ops, algo deu errado! Tente novamente.',
             }
         );
         
@@ -61,11 +67,14 @@ export function Register() {
                 <img src={Logo} alt="logo dev" />
             </LeftContainer>
             <RightContainer>
-                <Title>
-                    Olá, seja bem vindo a pagina do <span>desenvolvedor Carlos!</span>
-                    <br />Acesse com seu <span> Login e senha.</span>
-                </Title>
+                <Title>Criar Conta</Title>                  
                 <Form onSubmit={handleSubmit(onSubmit)}>
+                <InputContainer>
+                        <label>Nome</label>
+                        <input type="text" {...register('name')} />
+                        <p>{errors?.name?.message}</p>
+                    </InputContainer>
+
                     <InputContainer>
                         <label>Email</label>
                         <input type="email" {...register('email')} />
@@ -77,11 +86,17 @@ export function Register() {
                         <input type="password" {...register('password')} />
                         <p>{errors?.password?.message}</p>
                     </InputContainer>
-                    <Button type="submit">Entrar</Button>
+
+                    <InputContainer>
+                        <label>Confirmar Senha</label>
+                        <input type="password" {...register('confirmPassword')} />
+                        <p>{errors?.confirmPassword?.message}</p>
+                    </InputContainer>
+                    <Button type="submit">Criar Conta</Button>
                 </Form>
 
                 <p>
-                    Não possui conta? <a>Clique aqui.</a>
+                    Já possui conta? <a>Clique aqui.</a>
                 </p>
             </RightContainer>
         </Container>
